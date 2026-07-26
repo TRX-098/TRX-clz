@@ -37,7 +37,7 @@ export async function connectRedis(redisUrl) {
 
   try {
     redisClient = createClient({ url: redisUrl });
-    redisClient.on("error", (err) => {
+    redisClient.once("error", (err) => {
       if (!redisLogged) {
         logger.warn("[WARN] Redis error, bot tetap jalan tanpa cache.");
         redisLogged = true;
