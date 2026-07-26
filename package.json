@@ -1,0 +1,53 @@
+{
+  "name": "troxzymd",
+  "version": "1.0.0",
+  "description": "TroxzyMD - WhatsApp Bot with hybrid architecture and robust services",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "pm2": "pm2 start ecosystem.config.js"
+  },
+  "engines": {
+    "node": ">=20.0.0 <=24.0.0"
+  },
+  "dependencies": {
+    "@adiwajshing/keyed-db": "latest",
+    "@whiskeysockets/baileys": "latest",
+    "axios": "latest",
+    "badwords": "latest",
+    "canvas": "latest",
+    "cfonts": "^3.3.1",
+    "cheerio": "latest",
+    "chokidar": "latest",
+    "cors": "latest",
+    "crypto-js": "latest",
+    "dotenv": "latest",
+    "express": "latest",
+    "figlet": "latest",
+    "file-type": "latest",
+    "fluent-ffmpeg": "latest",
+    "fontkit": "latest",
+    "fs-extra": "latest",
+    "google-it": "latest",
+    "helmet": "latest",
+    "jimp": "latest",
+    "link-preview-js": "latest",
+    "midtrans-client": "latest",
+    "mime-types": "latest",
+    "moment": "latest",
+    "moment-timezone": "latest",
+    "mongoose": "latest",
+    "morgan": "latest",
+    "node-cron": "latest",
+    "node-fetch": "latest",
+    "qrcode": "latest",
+    "qrcode-terminal": "latest",
+    "redis": "latest",
+    "sharp": "latest",
+    "shelljs": "latest",
+    "uuid": "latest",
+    "winston": "latest"
+  }
+}
