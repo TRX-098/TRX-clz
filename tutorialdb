@@ -1,0 +1,150 @@
+BadanIntelijanNegara.
+
+Anj, lu mau deploy bot raksasa tapi gak tau MongoDB sama Redis? Keik nyontek pas ulangan tapi gak tau cara nulis nama 😹💀. Santai, gue jelasin detail sampai lu paham.
+
+---
+
+## 📊 MONGODB URL — APA ITU?
+
+MongoDB itu database tempat bot nyimpen data user, grup, transaksi, ekonomi, RPG, dll. Tanpa MongoDB, data bakal hilang tiap bot restart.
+
+### CARA DAPETIN MONGODB URL GRATIS:
+
+**Step 1: Daftar MongoDB Atlas**
+1. Buka https://www.mongodb.com/cloud/atlas/register
+2. Daftar pakai email lu
+3. Pilih plan **FREE** (M0 - 512MB, cukup buat bot)
+
+**Step 2: Buat Cluster**
+1. Pilih provider: **AWS** (paling stabil)
+2. Pilih region: **Singapore** (paling deket Indonesia)
+3. Klik **Create Cluster**
+4. Tunggu 2-3 menit sampai cluster jadi
+
+**Step 3: Buat Database User**
+1. Menu kiri → **Database Access**
+2. Klik **Add New Database User**
+3. Username: `troxzy`
+4. Password: bikin password kuat, contoh: `TroxzyMD2024!`
+5. Role: **Read and write to any database**
+6. Klik **Add User**
+
+**Step 4: Allow IP Access**
+1. Menu kiri → **Network Access**
+2. Klik **Add IP Address**
+3. Pilih **Allow Access From Anywhere** (IP: `0.0.0.0/0`)
+4. Klik **Confirm**
+
+**Step 5: Dapat Connection URL**
+1. Menu kiri → **Database**
+2. Klik **Connect**
+3. Pilih **Connect your application**
+4. Driver: **Node.js**
+5. Version: **4.1 or later**
+6. Copy URL yang muncul, formatnya kek gini:
+```
+mongodb+srv://troxzy:TroxzyMD2024!@cluster0.abc123.mongodb.net/?retryWrites=true&w=majority
+```
+
+**Step 6: Isi ke .env**
+```env
+MONGODB_URL=mongodb+srv://troxzy:TroxzyMD2024!@cluster0.abc123.mongodb.net/?retryWrites=true&w=majority
+```
+
+Ganti `troxzy:TroxzyMD2024!` sama username:password yang lu bikin tadi.
+
+---
+
+## ⚡ REDIS URL — APA ITU?
+
+Redis itu cache memory buat simpan cooldown, rate limiting, dan session sementara. Bikin bot lebih cepat responsnya karena gak perlu bolak-balik ke MongoDB buat data kecil.
+
+### CARA DAPETIN REDIS URL GRATIS:
+
+**Option A: Upstash (Gratis, paling gampang)**
+
+1. Buka https://upstash.com/
+2. Daftar pakai GitHub atau Google
+3. Klik **Create Database**
+4. Name: `troxzy-redis`
+5. Region: **ap-northeast-1 (Tokyo)** atau **ap-southeast-1 (Singapore)**
+6. Klik **Create**
+7. Scroll ke bawah, copy **Redis URL**:
+```
+redis://default:AbCdEfGhIjKlMnOpQrSt@us1-troxzy-redis-12345.upstash.io:12345
+```
+
+**Option B: Redis Cloud (Gratis 30MB)**
+
+1. Buka https://app.redislabs.com/
+2. Daftar akun
+3. Klik **New Database**
+4. Name: `troxzy`
+5. Plan: **Free 30MB**
+6. Klik **Create Database**
+7. Copy **Endpoint** dan **Password**
+8. Format URL jadi:
+```
+redis://default:PASSWORD@ENDPOINT:PORT
+```
+
+**Isi ke .env:**
+```env
+REDIS_URL=redis://default:AbCdEfGhIjKlMnOpQrSt@us1-troxzy-redis-12345.upstash.io:12345
+```
+
+---
+
+## 🤔 BISA GAK PAKE MONGODB & REDIS LOCAL?
+
+Bisa, kalau lu punya VPS sendiri. Tapi kalau lu pake Pterodactyl panel, lu gak bisa install MongoDB/Redis di dalam container Pterodactyl. Jadi wajib pake cloud service di atas.
+
+---
+
+## 😎 BISA GAK BIARIN KOSONG?
+
+Bisa! AI agent lu udah bikin MongoDB dan Redis jadi **optional**. Bot tetap jalan walau gak diisi. Tapi konsekuensinya:
+
+| Tanpa MongoDB | Tanpa Redis |
+|---|---|
+| Data user hilang pas restart | Cooldown gak akurat |
+| Transaksi Midtrans gak tersimpan | Rate limiting gak jalan |
+| Economy & RPG gak tersimpan | Session management lambat |
+| Premium user gak tersimpan | Anti-spam lemah |
+
+**Jadi kalau lu mau bot lu bener-bener jadi nomor 1, ISI KEDUA-NYA.** 📊⚡
+
+---
+
+## 📋 RINGKASAN .env LENGKAP
+
+```env
+# Bot Info
+BOT_NAME=TroxzyMD
+OWNER_NAME=Trozzy
+OWNER_NUMBER=6281410528015
+TELEGRAM_OWNER=t.me/SoloBanNoTrash
+BOT_NUMBER=628xxxxxxxxxx
+
+# AI Config
+AI_BASE_URL=https://api.freetheai.xyz/v1
+AI_API_KEY=isi_api_key_dari_freetheai
+
+# Midtrans Config
+MIDTRANS_CLIENT_KEY=isi_dari_dashboard_midtrans
+MIDTRANS_SERVER_KEY=isi_dari_dashboard_midtrans
+
+# Database (WAJIB ISI BUAT BOT STABIL)
+MONGODB_URL=mongodb+srv://troxzy:PASSWORD@cluster0.abc123.mongodb.net/?retryWrites=true&w=majority
+REDIS_URL=redis://default:PASSWORD@host:port
+
+# System
+WEBHOOK_PORT=7777
+NODE_ENV=production
+TIMEZONE=Asia/Jakarta
+PREFIX=.
+```
+
+---
+
+Udah paham yang mulia? 😹 Kalau masih bingung, bilang aja bagian mana yang masih otak lu belum nyampe, gue jelasin lagi sampe masuk ke otak kanan-kiri lu 💀🔥!
