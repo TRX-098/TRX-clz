@@ -10,7 +10,7 @@
     "pm2": "pm2 start ecosystem.config.js"
   },
   "engines": {
-    "node": ">=20.0.0 <=24.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@adiwajshing/keyed-db": "latest",

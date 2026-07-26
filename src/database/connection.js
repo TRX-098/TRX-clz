@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { createClient } from "redis";
 import logger from "../utils/logger.js";
 
-let redisClient;
+let redisClient = null;
 
 export async function connectMongo(mongoUrl) {
   if (!mongoUrl) {
@@ -26,18 +26,22 @@ export async function connectMongo(mongoUrl) {
 
 export async function connectRedis(redisUrl) {
   if (!redisUrl) {
-    logger.warn("REDIS_URL is not set. Redis integration disabled.");
+    logger.warn("[WARN] REDIS_URL kosong, bot berjalan tanpa cache.");
+    redisClient = null;
     return false;
   }
 
   try {
     redisClient = createClient({ url: redisUrl });
-    redisClient.on("error", (error) => logger.error("Redis Error", { error }));
+    redisClient.on("error", (err) => {
+      logger.warn("[WARN] Redis error, bot tetap jalan tanpa cache.");
+    });
     await redisClient.connect();
     logger.info("Redis connected");
     return true;
   } catch (error) {
-    logger.warn("Redis connection failed", { error });
+    logger.warn("[WARN] Redis connection failed, bot berjalan tanpa cache.", { error });
+    redisClient = null;
     return false;
   }
 }
