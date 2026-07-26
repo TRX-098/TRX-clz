@@ -43,12 +43,13 @@ export async function connectRedis(redisUrl) {
         redisLogged = true;
       }
     });
-    await redisClient.connect();
-    logger.info("Redis connected");
+    // Don't await — let Redis connect in background, bot continues immediately
+    redisClient.connect().catch(() => {});
+    logger.info("Redis connecting in background...");
     return true;
   } catch (error) {
     if (!redisLogged) {
-      logger.warn("[WARN] Redis connection failed, bot berjalan tanpa cache.", { error });
+      logger.warn("[WARN] Redis initialization failed, bot berjalan tanpa cache.", { error });
       redisLogged = true;
     }
     redisClient = null;
