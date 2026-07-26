@@ -3,6 +3,7 @@ import { createClient } from "redis";
 import logger from "../utils/logger.js";
 
 let redisClient = null;
+let redisLogged = false;
 
 export async function connectMongo(mongoUrl) {
   if (!mongoUrl) {
@@ -26,7 +27,10 @@ export async function connectMongo(mongoUrl) {
 
 export async function connectRedis(redisUrl) {
   if (!redisUrl) {
-    logger.warn("[WARN] REDIS_URL kosong, bot berjalan tanpa cache.");
+    if (!redisLogged) {
+      logger.warn("[WARN] REDIS_URL kosong, bot berjalan tanpa cache.");
+      redisLogged = true;
+    }
     redisClient = null;
     return false;
   }
@@ -34,13 +38,19 @@ export async function connectRedis(redisUrl) {
   try {
     redisClient = createClient({ url: redisUrl });
     redisClient.on("error", (err) => {
-      logger.warn("[WARN] Redis error, bot tetap jalan tanpa cache.");
+      if (!redisLogged) {
+        logger.warn("[WARN] Redis error, bot tetap jalan tanpa cache.");
+        redisLogged = true;
+      }
     });
     await redisClient.connect();
     logger.info("Redis connected");
     return true;
   } catch (error) {
-    logger.warn("[WARN] Redis connection failed, bot berjalan tanpa cache.", { error });
+    if (!redisLogged) {
+      logger.warn("[WARN] Redis connection failed, bot berjalan tanpa cache.", { error });
+      redisLogged = true;
+    }
     redisClient = null;
     return false;
   }
